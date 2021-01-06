@@ -1,10 +1,165 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script  src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="functions.js"></script>
     <meta charset="UTF-8">
     <title>Stock</title>
 </head>
+
 <body>
 
+<nav class="navbar navbar-expand-md navbar-light bg-light fixed-top" id="main-nav">
+    <div class="container">
+        <a href="index.html" class="navbar-brand">
+            <h3 class="d-inline align-middle">Amazun</h3>
+        </a>
+        <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item h4">
+                    <a href="index.html" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item h4">
+                    <a href="user.html" class="nav-link">Users</a>
+                </li>
+                <li class="nav-item h4">
+                    <a href="Order.html" class="nav-link">Order</a>
+                </li>
+                <li class="nav-item h4">
+                    <a href="cart.html" class="nav-link">Cart</a>
+                </li>
+                <li class="nav-item h4">
+                    <a href="Stock.html" class="nav-link">Stock</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+
+
+<section id="searchSection" class="bg-dark">
+    <div class="row">
+        <div class="col text-center py-5 text-light">
+            <h1 class="display-4">Search for an Item:</h1>
+            <p>This section is for searching for an item in the store</p>
+            <form class="searchInput">
+                <label for="searchBar">Item to search for: </label>
+                <input type="text" id = "searchBar">
+            </form>
+        </div>
+    </div>
+</section>
+
+<section class="bg-light tableSection">
+    <div id ="tableRow" class="row">
+    <div id ="tableCol" class="col">
+    <div id="tableDiv" class="table-responsive">
+        <table id="itemTable" class="table itemTable mb-0">
+            <thead>
+            <tr>
+                <td>Id</td>
+                <td>Item Name</td>
+                <td>Price</td>
+                <td>Description</td>
+            </tr>
+            </thead>
+            <tbody id="textBody">
+
+            </tbody>
+        </table>
+    </div>
+    </div>
+    </div>
+</section>
+
+
+<section id="createItem" class="bg-dark">
+    <div class="row">
+        <div class="col text-center py-5 text-light">
+            <h1 class="display-4">Create an Item:</h1>
+            <p>This section is for creating an item to add to the store.</p>
+            <form class="itemInput">
+                <label for="idText">Item Id: </label>
+                <input type="text" id="idText"><br>
+                <label for="itemNameText">Item Name:</label>
+                <input type="text" id="itemNameText"><br>
+                <label for="priceText">Item Price:</label>
+                <input type="text" id="priceText"><br>
+                <label for="descriptionText">Item Description:</label>
+                <input type="text" id="descriptionText"><br>
+                <button class="btn btn-light" id="createBtn" type="button" onclick="createItem($('#idText').val(),$('#itemNameText').val(),$('#priceText').val(),$('#descriptionText').val());">Create Item</button>
+            </form>
+        </div>
+    </div>
+</section>
+<script>
+    var itemCount = getText("/getItemCount");
+    for (let i = 0; i < itemCount; i++){
+        let j = getJSON("/getItemByID?id=" + i);
+        console.log(JSON.parse(j).id);
+        console.log(JSON.parse(j).itemName);
+        createItem(parseInt(JSON.parse(j).id),JSON.parse(j).itemName,parseFloat(JSON.parse(j).price),JSON.parse(j).description);
+    }
+    function createItem(idNum, name, itemPrice, itemDescription){
+        let obj = {itemName : name, price : parseInt(itemPrice), id : parseInt(idNum), description : itemDescription};
+        postJSON('/createItem',obj);
+        let newRow = "<tr><td>" + idNum + "</td><td>" + name + "</td><td>" + itemPrice + "</td><td>" + itemDescription + "</td></tr>";
+        $(".itemTable").append(newRow);
+        $("#searchBar").on("keyup",function(){
+            for (let i = 0; i < $("#textBody tr").length; i++) {
+                $("#textBody tr").eq(i).hide();
+            }
+                let cell = $("#textBody tr td");
+                let searchBar = $("#searchBar");
+                for (let i = 0; i < $("#textBody tr td").length; i++) {
+                        if (cell.eq(i).text().trim().substr(0, searchBar.val().length).toLowerCase() === searchBar.val().trim().toLowerCase()) {
+                            $("#textBody tr").eq(Math.floor(i/4)).show();
+                            cell.show();
+                        }
+                }
+            })
+
+    }
+</script>
+<style>
+    #searchSection{
+        margin-top:5%;
+    }
+    .btn-light{
+        height:80%;
+    }
+    #itemNameText{
+        margin-right:1.26%;
+    }
+    #priceText{
+        margin-right:.9%;
+    }
+    #descriptionText{
+        margin-right:3.1%;
+    }
+    #createBtn{
+        width:9%;
+        margin-right:-3%;
+    }
+    #tableDiv{
+        height:300px;
+        overflow:auto;
+    }
+    #tableRow{
+        width:50%;
+        alignment:center;
+        margin-left: 25%;
+    }
+    #tableCol{
+        alignment:center;
+    }
+</style>
 </body>
 </html>
