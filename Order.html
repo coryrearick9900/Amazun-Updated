@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cmpsc 421 Online store</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="functions.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+</head>
+
+<body>
+
+
+<nav class="bg-dark">
+    <table class="container">
+        <tr class="row">
+            <th class="col text-center py-5 text-white">
+                <img src="images/new%20cart.png" height="100px" style="border: 2px solid black">
+            </th>
+            
+            <th class="col text-center py-5 text-white">
+                <img src="images/185-1852219_delivery-send-canceled-order-icon-hd-png-download.png" height="100px" style="border: 2px solid black">
+            </th>
+
+            <th class="col text-center py-5 text-white">
+                <img src="images/cancel%20order.png" height="100px" style="border: 2px solid black">
+            </th>
+        </tr>
+
+        <tr class="row">
+            <th class="col text-center py-5 text-white">
+                <button class="btn btn-outline-light" id="creat_o" onclick="createOrder()">Create new order</button>
+            </th>
+            <th class="col text-center py-5 text-white">
+                <button class="btn btn-outline-light" id="check_o" onclick="checkOrder()">Check existing order</button>
+            </th>
+            <th class="col text-center py-5 text-white">
+                <button class="btn btn-outline-light" id="cancel_o" onclick="cancelOrder()">Cancel existing order</button>
+            </th>
+        </tr>
+    </table>
+</nav>
+
+<script>
+    function createOrder() {
+
+    }
+
+    function checkOrder() {
+
+        let orderID = prompt("Please enter the order ID number you wish to check: ");
+
+        let endpoint = "/order/view?id=" + orderID;
+        let str = getJSON(endpoint);
+        console.log("a");
+        console.log(str);
+        console.log("b");
+        //let response = alert(str.toString());
+
+    }
+
+    function cancelOrder() {
+
+        let orderID = prompt("Please enter the order ID number you wish to cancel: ");
+
+        let endpoint = "/order/view" + orderID;
+
+        //delete function
+
+    }
+
+</script>
+
+
+</body>
+</html>

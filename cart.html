@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="functions.js"></script>
+    <meta charset="UTF-8">
+    <title>CPMSC 421 Shopping Cart</title>
+
+    <script>
+        // document.body.style.backgroundColor = "#b2d5d5";
+
+
+        $(document).ready(function view_cart() {
+
+
+
+            let test_item_PC = {
+                "itemName": "Epic Gaming Rig",
+                "price": 259.99,
+                "id": 2,
+                "description": "This is a super epic gaming rig that you cna purchase today for only 259.99.  You can run great games on it like Grand Theft Auto 6, Half Life 3, and Flappy Bird."
+            };
+
+            let test_item_google_play_card_50 = {
+                "itemName": "Google Play Card",
+                "price": 50.00,
+                "id": 2,
+                "description": "A scammer's best friend.  Scammers <i>love</i> these to aid in their stealing ways.  <u class='redtext'><i class='redtext'>If you are ever asked to buy a ridiculous amount of these over the phone, please be aware that this might be a scam.  Microsoft, Google, nor any big tech company will ever ask you for support, let alone ask for payment in a gift card.</i></u>"
+            };
+
+            let items_array = [test_item_PC, test_item_google_play_card_50];
+
+            let url = "/cart/get";
+            let json = getJSON(url);
+
+            console.log(json);
+
+            for (let i = 0; i < 2; i++) {
+                console.log("entered loop");
+                // let tag = "<div><p th:='json[i].itemName'</p>"
+            }
+
+
+
+
+
+
+
+
+        });
+
+
+
+    </script>
+</head>
+<style>
+    h1 {
+        background-color: goldenrod;
+        color: black;
+        background-position: left;
+
+
+    }
+
+    .top_bar {
+        background-color: darkslategray;
+        height: 95px;
+        width: auto;
+        margin: 0;
+        padding: 0;
+        align-items: center;
+
+
+
+
+    }
+
+
+
+    .redtext {
+        color: red;
+    }
+
+    .top_bar .logo {
+        font-size: 50px;
+        margin: 0 0 0 0;
+        color: cornsilk;
+    }
+
+    .top_bar a {
+        color: darkgoldenrod;
+        font-style: italic;
+    }
+
+    .item_container .information {
+        padding: 0;
+        margin: 0;
+    }
+
+    .item_container {
+        padding: 10px;
+    }
+</style>
+
+<body>
+
+
+
+
+
+
+
+<div class="top_bar">
+    <!--    <img class="logo" src="images/Amazuncom_tsp.png" alt="Mountain" style="width:300px">-->
+    <p class="logo">Amazun</p>
+
+    <!--    Link take the user to the user page  -->
+
+</div>
+
+
+<p>
+    <i class="redtext">Your shopping cart here:</i>
+</p>
+<!--    <input type="button" value="View Cart"  id="view">-->
+
+
+<!--This is where the items go:-->
+<div id="cart">
+
+</div>
+
+<input type="button" value="Checkout">
+
+</body>
+</html>
